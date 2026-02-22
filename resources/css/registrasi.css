@@ -1,0 +1,77 @@
+.reg-container {
+    max-width: 1300px;
+    margin: 30px auto;
+}
+
+.reg-card {
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,.06);
+}
+
+.reg-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.reg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.reg-box {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+.reg-box h5 {
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.reg-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.reg-input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dcdcdc;
+    border-radius: 6px;
+    font-size: 14px;
+}
+
+.reg-input:focus {
+    border-color: #1e8c6a;
+    outline: none;
+}
+
+.reg-actions {
+    margin-top: 30px;
+    text-align: right;
+}
+
+.reg-btn-primary {
+    background: #1e8c6a;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+}
+
+.reg-btn-danger {
+    background: #dc3545;
+    color: #fff;
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    margin-left: 10px;
+}

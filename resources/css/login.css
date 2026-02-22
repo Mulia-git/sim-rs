@@ -1,0 +1,307 @@
+  * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    body, html {
+      height: 100%;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+   .left {
+  flex: 1;
+  position: relative;
+  background-image: 
+url('http://sim-rs.test/images/rectangle.png'),
+url('http://sim-rs.test/images/rectangle2.png');
+
+    /* Menambahkan beberapa gambar background */
+ 
+  background-repeat: no-repeat, no-repeat; /* Menentukan agar gambar tidak diulang */
+  background-size: 70%, 80%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+}
+
+    .left img {
+      width: 80%;
+      margin-left: 100px;
+      margin-bottom: 20px;
+      z-index: 1;
+    }
+    .left .title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      margin-right: 350px;
+      z-index: 1;
+    }
+    .left .subtitle {
+      font-size: 16px;
+      margin-bottom: 40px;
+      margin-right: 350px;
+      font-weight: bold;
+      z-index: 1;
+    }
+    .right {
+      flex: 1;
+      background: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+    .left .imgatas {
+        flex: 1;
+  position: relative;
+  background-image: 
+url('http://sim-rs.test/images/rectangle.png'),
+url('http://sim-rs.test/images/rectangle2.png');
+
+
+    /* Menambahkan beberapa gambar background */
+ 
+  background-repeat: no-repeat, no-repeat; /* Menentukan agar gambar tidak diulang */
+  background-size: 70%, 80%;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 40px;
+  overflow: hidden;
+    }
+    .login-card {
+      background: #fff;
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+      width: 80%;
+      max-width: 400px;
+    }
+    .login-card h2 {
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+    .login-card p {
+      font-size: 16px;
+      font-weight: bold;
+      margin-bottom: 30px;
+    }
+    .login-card input {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .login-card button {
+      width: 100%;
+      padding: 12px;
+      background-color: #008d62;
+      border: none;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .login-card button:hover {
+      background-color: #02735e;
+    }
+
+
+/* Untuk gambar lingkaran */
+.circle {
+  position: absolute;
+  top: 10px; /* Naikin ke atas supaya cuma setengah yang kelihatan */
+  right: -20px; /* Geser ke kanan supaya cuma setengah yang kelihatan */
+  
+}
+/* Semua gambar bawah */
+.bottom-img {
+  position: absolute;
+  bottom: -10px; /* Geser ke bawah supaya setengah tersembunyi */
+  width: 120px;
+  height: auto;
+}
+
+/* Atur posisi masing-masing gambar bawah */
+.img1 {
+  left: 20px;
+}
+
+.img2 {
+    left: 20px;
+}
+/* Ukuran tablet dan layar kecil (max 1024px) */
+@media (max-width: 1024px) {
+  .left, .right {
+    flex: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .left {
+    padding: 30px;
+    background-size: 80%, 90%;
+    background-position: center top, center center;
+  }
+
+  .left img {
+    width: 60%;
+    margin-left: 0;
+  }
+
+  .left .title, .left .subtitle {
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .circle {
+    width: 120px;
+    height: 120px;
+    top: -20px;
+    right: -20px;
+  }
+
+  .bottom-img {
+    width: 100px;
+  }
+}
+
+/* Ukuran HP besar (max 768px) */
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .left, .right {
+    flex: none;
+    width: 100%;
+    height: auto;
+  }
+
+  .left {
+    padding: 20px;
+    background-size: 90%, 100%;
+    background-position: center top, center center;
+  }
+
+  .left img {
+    width: 50%;
+    margin-bottom: 10px;
+  }
+
+  .left .title {
+    font-size: 18px;
+    margin-bottom: 6px;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .left .subtitle {
+    font-size: 16px;
+    margin-bottom: 20px;
+    margin-right: 0;
+    text-align: center;
+  }
+
+  .circle {
+    width: 100px;
+    height: 100px;
+    top: -20px;
+    right: -20px;
+  }
+
+  .bottom-img {
+    width: 80px;
+    bottom: -20px;
+  }
+
+  .login-card {
+    width: 90%;
+    max-width: 320px;
+    padding: 30px;
+  }
+}
+
+/* Ukuran HP kecil (max 480px) */
+@media (max-width: 480px) {
+  .left {
+    padding: 15px;
+    background-size: 100%, 110%;
+    background-position: center top, center center;
+  }
+
+  .left img {
+    width: 70%;
+    margin-bottom: 8px;
+  }
+
+  .left .title {
+    font-size: 16px;
+  }
+
+  .left .subtitle {
+    font-size: 14px;
+  }
+
+  .circle {
+    width: 80px;
+    height: 80px;
+    top: -20px;
+    right: -20px;
+  }
+
+  .bottom-img {
+    width: 60px;
+    bottom: -20px;
+  }
+
+  .login-card {
+    width: 95%;
+    max-width: 280px;
+    padding: 20px;
+  }
+}
+
+/* Ukuran extra kecil (max 360px) */
+@media (max-width: 360px) {
+  .left img {
+    width: 80%;
+  }
+
+  .left .title {
+    font-size: 14px;
+  }
+
+  .left .subtitle {
+    font-size: 12px;
+  }
+
+  .circle {
+    width: 70px;
+    height: 70px;
+  }
+
+  .bottom-img {
+    width: 50px;
+  }
+
+  .login-card {
+    width: 100%;
+    max-width: 260px;
+  }
+}

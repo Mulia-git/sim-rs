@@ -1,0 +1,72 @@
+/* ============================
+   MASTER PASIEN TABLE STYLE
+============================ */
+
+#pasienTable {
+    font-size: 14px;
+}
+
+#pasienTable thead th {
+    background-color: #f8f9fa;
+    color: #333;
+    font-weight: 600;
+    text-align: center;
+    vertical-align: middle;
+}
+
+#pasienTable tbody td {
+    vertical-align: middle;
+}
+
+/* Dropdown No RM */
+#pasienTable .dropdown-toggle {
+    text-decoration: none;
+    font-weight: 600;
+}
+
+#pasienTable .dropdown-menu {
+    font-size: 13px;
+    border-radius: 8px;
+    padding: 6px 0;
+}
+
+#pasienTable .dropdown-item {
+    padding: 6px 15px;
+    transition: 0.2s ease;
+}
+
+#pasienTable .dropdown-item:hover {
+    background-color: #f1f3f5;
+}
+
+/* Aksi button */
+.btn-aksi {
+    border-radius: 20px;
+}
+
+/* Responsive improvement */
+.table-responsive {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+/* Modal styling */
+.modal-header {
+    background-color: #f8f9fa;
+}
+
+.modal-title {
+    font-weight: 600;
+}
+#searchGlobal {
+    border-radius: 20px;
+    padding-left: 15px;
+}
+
+#btnSearch {
+    border-radius: 20px;
+}
+
+.spinner-border {
+    margin-top: 8px;
+}
