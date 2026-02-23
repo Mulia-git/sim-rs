@@ -1,7 +1,9 @@
-import Swal from 'sweetalert2';
 import $ from 'jquery';
+window.$ = window.jQuery = $;
 
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+import Swal from 'sweetalert2';
 function validate(class_name) {
 
     var fields = document.getElementsByClassName(class_name);
