@@ -7,14 +7,7 @@ use Illuminate\Support\Facades\Http;
 class BpjsController extends Controller
 {
 
-    // =========================================
-    // CEK PESERTA
-    // =========================================
-    public function cekPeserta(Request $r)
-    {
-        $endpoint = "Peserta/nokartu/{$r->no_peserta}/tglSEP/{$r->tgl_sep}";
-        return response()->json(vclaim_get($endpoint));
-    }
+
 
 
     // =========================================
@@ -153,5 +146,39 @@ class BpjsController extends Controller
     public function referensiPropinsi()
 {
     return response()->json(vclaim_get("referensi/propinsi"));
+}
+// =========================================
+// RUJUKAN RS LIST BY NO KARTU
+// =========================================
+public function rujukanRsList(Request $request)
+{
+     $noKartu = $request->no_kartu;
+    $jenis = $request->jenis;
+
+    if ($jenis == 1) {
+        $endpoint = "Rujukan/List/Peserta/$noKartu";
+    } else {
+        $endpoint = "Rujukan/RS/List/Peserta/$noKartu";
+    }
+
+    return response()->json(
+        vclaim_get($endpoint)
+    );
+}
+public function cekPeserta(Request $r)
+{
+    $r->validate([
+        'jenis' => 'required',
+        'no_peserta' => 'required',
+        'tgl_sep' => 'required'
+    ]);
+
+    if ($r->jenis == 'kartu') {
+        $endpoint = "Peserta/nokartu/{$r->no_peserta}/tglSEP/{$r->tgl_sep}";
+    } else {
+        $endpoint = "Peserta/nik/{$r->no_peserta}/tglSEP/{$r->tgl_sep}";
+    }
+
+    return response()->json(vclaim_get($endpoint));
 }
 }

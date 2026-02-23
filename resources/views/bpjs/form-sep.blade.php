@@ -11,15 +11,17 @@
     <div class="bpjs-form-row">
 
         <div class="bpjs-col-4">
-            <label>No. Rujukan</label>
-            <input type="text"
-                   class="bpjs-control"
-                   placeholder="Masukkan nomor rujukan">
+            <label>Masukkan No Kartu BPJS</label>
+        <input type="text"
+       id="no_kartu_txt"
+       class="bpjs-control"
+       placeholder="Masukkan nomor kartu BPJS">
+
         </div>
 
         <div class="bpjs-col-3">
             <label>Jenis Faskes</label>
-            <select class="bpjs-control">
+            <select id="jenis_faskes" class="bpjs-control">
                 <option selected disabled>Pilih</option>
                 <option value="1">Faskes 1</option>
                 <option value="2">Faskes 2 / RS</option>
@@ -27,7 +29,10 @@
         </div>
 
         <div class="bpjs-col-3 bpjs-btn-group">
-            <button class="bpjs-btn-primary">
+            
+            <button type="button"
+                    id="btn_data_rujukan"
+                    class="bpjs-btn-primary">
                 Data Rujukan
             </button>
 
@@ -673,4 +678,70 @@
 
     </form>
 
+</div>
+<div class="modal fade" id="modalRujukanRS" tabindex="-1">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    Daftar Rujukan Rumah Sakit
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+
+                <div class="row">
+
+                    <!-- LEFT TABLE -->
+                    <div class="col-md-7">
+
+                        <input type="text"
+                               id="searchRujukan"
+                               class="form-control mb-3"
+                               placeholder="Cari nama / no kunjungan / diagnosa...">
+
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered"
+                                   id="tableRujukanRS">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>No</th>
+                                        <th>No Kunjungan</th>
+                                        <th>Nama</th>
+                                        <th>Diagnosa</th>
+                                        <th>Tgl</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="rujukan_rs_list"></tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT DETAIL -->
+                    <div class="col-md-5 border-start">
+
+                        <h6 class="fw-bold mb-3">
+                            Detail Rujukan
+                        </h6>
+
+                        <div id="rujukan_detail_preview">
+
+                            <div class="text-muted">
+                                Pilih data rujukan untuk melihat detail
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 </div>

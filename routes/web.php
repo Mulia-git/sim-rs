@@ -27,6 +27,8 @@ Route::middleware('auth')->group(function () {
         Route::prefix('registrasi')->group(function(){
 
     Route::get('/',[RegistrasiController::class,'index']);
+    Route::get('/history/{id}', [RegistrasiController::class, 'history'])
+    ->name('registrasi.history');
   
     Route::get('/history/{id}',[RegistrasiController::class,'history']);
     Route::get('/datatable-rajal',[RegistrasiController::class,'datatableRajal']);
@@ -55,6 +57,7 @@ Route::prefix('master-pasien')->group(function () {
     Route::get('/registrasi/cetak-etiket/{no_rawat}', 
     [RegistrasiController::class, 'cetakEtiket']
 );
+
 Route::prefix('bpjs')->group(function () {
 
     Route::get('/cek-peserta', [BpjsController::class, 'cekPeserta']);
@@ -79,6 +82,8 @@ Route::prefix('bpjs')->group(function () {
 
     Route::get('/print/{noSep}', [BpjsController::class, 'printSep']);
     Route::get('/referensi-propinsi', [BpjsController::class, 'referensiPropinsi']);
+    Route::get('/rujukan-rs-list', [BpjsController::class, 'rujukanRsList']);
+    Route::post('/cek-peserta', [BpjsController::class, 'cekPeserta']);
 });
 });
 

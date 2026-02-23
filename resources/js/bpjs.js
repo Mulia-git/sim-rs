@@ -1,6 +1,7 @@
 import Swal from 'sweetalert2';
 import $ from 'jquery';
 
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 function validate(class_name) {
 
     var fields = document.getElementsByClassName(class_name);
@@ -42,7 +43,7 @@ function getNinetyDaysAgoDate() {
 
 function kirim_jawaban(param) {
 
-    $.LoadingOverlay('show');
+    window.showLoading();
     $('#modalQuestion').modal('show');
 
     var noKartu = $('#noKartu').val();
@@ -71,11 +72,11 @@ function kirim_jawaban(param) {
                     text: "Jawaban Anda benar silahkan melanjutkan pembuatan sep",
                 });
 
-                $.LoadingOverlay('hide');
+                window.hideLoading();
 
             } else if (response.message == 'false') {
 
-                $.LoadingOverlay('hide');
+                window.hideLoading();
 
                 swal({
                     icon: 'error',
@@ -555,7 +556,7 @@ $(document).on('click', '.pilih_dpjp', function() {
 
 $(document).on('click', '#search_rujukan', function() {
 
-    $.LoadingOverlay('show');
+    window.showLoading();
 
     var no_kartu = $('#no_kartu_txt').val();
     var jenis_pelayanan = $('#jenis_faskes').val();
@@ -567,7 +568,7 @@ $(document).on('click', '#search_rujukan', function() {
             "&jenis_pelayanan=" + jenis_pelayanan,
         success: function(response) {
 
-            $.LoadingOverlay('hide');
+            window.hideLoading();
 
             var response = $.parseJSON(response);
             var html = '';
@@ -630,7 +631,7 @@ $(document).on('click', '.pilih_rujukan', function() {
 
 $(document).on('click', '#getQuestion', function() {
 
-    $.LoadingOverlay('show');
+    window.showLoading();
     $('#modalQuestion').modal('show');
 
     var noKartu = $('#noKartu').val();
@@ -643,7 +644,7 @@ $(document).on('click', '#getQuestion', function() {
             "&tglPelayanan=" + tgl_pelayanan,
         success: function(response) {
 
-            $.LoadingOverlay('hide');
+            window.hideLoading();
 
             var response = $.parseJSON(response);
             var html = '';
@@ -693,7 +694,7 @@ $(document).on('click', '.pilih_jawaban', function() {
 
 $(document).on('click', '#save_sep', function() {
 
-    $.LoadingOverlay('show');
+    window.showLoading();
     $('#save_sep').attr('disabled', true);
 
     var data = $('#form-create-sep').serialize();
@@ -706,7 +707,7 @@ $(document).on('click', '#save_sep', function() {
             data: data,
             success: function(response) {
 
-                $.LoadingOverlay('hide');
+                window.hideLoading();
 
                 var response = $.parseJSON(response);
 
@@ -743,7 +744,7 @@ $(document).on('click', '#save_sep', function() {
 
     } else {
 
-        $.LoadingOverlay('hide');
+        window.hideLoading();
         $('#save_sep').removeAttr('disabled');
 
         swal({
@@ -876,9 +877,8 @@ $(document).on('change', '#statusPulang', function() {
     }
 });
 $(document).ready(function() {
-   // DataTable
-    $('#tableHistory').DataTable();
- 
+
+
 
     
 
@@ -945,3 +945,221 @@ $(document).on('click', '#getQuestion', function() {
     // logic buka pertanyaan
 });
 
+// ==========================================
+// DATA RUJUKAN RS LIST
+// ==========================================
+$(document).on('click', '#btn_data_rujukan', function () {
+
+    let noKartu = $('#no_kartu_txt').val();
+    let jenisFaskes = $('#jenis_faskes').val();
+
+    if (!noKartu) {
+        Swal.fire('Oops', 'Nomor kartu harus diisi', 'warning');
+        return;
+    }
+
+    if (!jenisFaskes) {
+        Swal.fire('Oops', 'Pilih jenis faskes', 'warning');
+        return;
+    }
+
+    window.showLoading();
+
+    $.ajax({
+        type: "GET",
+        
+         url: "/bpjs/rujukan-rs-list?no_kartu=" + noKartu+ "&jenis=" + jenisFaskes,
+        success: function (response) {
+
+            window.hideLoading();
+
+            if (response.metaData.code != 200) {
+                Swal.fire('Gagal', response.metaData.message, 'error');
+                return;
+            }
+
+            $('#modalRujukanRS').modal('show');
+
+        }
+    });
+
+});
+// ==========================================
+// PILIH RUJUKAN RS
+// ==========================================
+
+$(document).on('click', '.pilih_rujukan_rs', function () {
+
+    let noKunjungan = $(this).data('nokunjungan');
+
+    $('#noRujukan').val(noKunjungan);
+    $('#modalRujukanRS').modal('hide');
+
+});
+$(document).on('click', '#tableRujukanRS tbody tr', function () {
+
+    let detail = $(this).data('detail');
+    if (!detail) return;
+
+    let html = `
+        <div class="mb-2">
+            <strong>Nama:</strong><br>
+            ${detail.peserta.nama}
+        </div>
+
+        <div class="mb-2">
+            <strong>No Kartu:</strong><br>
+            ${detail.peserta.noKartu}
+        </div>
+
+        <div class="mb-2">
+            <strong>NIK:</strong><br>
+            ${detail.peserta.nik}
+        </div>
+
+        <div class="mb-2">
+            <strong>Diagnosa:</strong><br>
+            ${detail.diagnosa.kode} - ${detail.diagnosa.nama}
+        </div>
+
+        <div class="mb-2">
+            <strong>Faskes Perujuk:</strong><br>
+            ${detail.provPerujuk.nama}
+        </div>
+
+        <div class="mb-2">
+            <strong>Tanggal Kunjungan:</strong><br>
+            ${detail.tglKunjungan}
+        </div>
+    `;
+
+    $('#rujukan_detail_preview').html(html);
+
+});
+$(document).on('click', '.pilih_rujukan_rs', function (e) {
+
+    e.stopPropagation();
+
+    let row = $(this).closest('tr');
+    let detail = row.data('detail');
+    $('#noRujukan').val(detail.noKunjungan);
+    $('#ppkRujukan').val(detail.provPerujuk.kode);
+    $('#ppkRujukan_txt').val(detail.provPerujuk.nama);
+    $('#diagAwal').val(detail.diagnosa.kode);
+    $('#nama_peserta').val(detail.peserta.nama);
+    $('#nik').val(detail.peserta.nik);
+    $('#noKartu').val(detail.peserta.noKartu);
+    $('#noMr').val(detail.peserta.mr.noMR);
+
+    $('#modalRujukanRS').modal('hide');
+
+    Swal.fire('Berhasil', 'Rujukan dipilih', 'success');
+
+});
+
+
+// ==============================
+// OPEN MODAL CEK BPJS
+// ==============================
+$(document).on('click', '.btn-cek-bpjs', function () {
+
+  
+    let jenis = $(this).data('jenis')
+
+    $('#jenis_pencarian').val(jenis)
+    $('#no_peserta').val('')
+    $('#hasilBpjs').html('')
+
+    $('#modalCekBpjs').modal('show')
+})
+
+
+// ==============================
+// PROSES CEK
+// ==============================
+$('#btnProsesCek').on('click', function () {
+
+    $('#hasilBpjs').html(`
+        <div class="text-center">
+            <div class="spinner-border text-primary"></div>
+        </div>
+    `)
+
+    $.post('/bpjs/cek-peserta', {
+        _token: $('meta[name="csrf-token"]').attr('content'),
+        jenis: $('#jenis_pencarian').val(),
+        no_peserta: $('#no_peserta').val(),
+        tgl_sep: $('#tgl_sep').val()
+    }, function (res) {
+
+        if (res.metaData.code != 200) {
+            $('#hasilBpjs').html(`
+                <div class="alert alert-danger">
+                    ${res.metaData.message}
+                </div>
+            `)
+            return
+        }
+
+        let p = res.response.peserta
+
+        let statusColor = p.statusPeserta.keterangan == 'AKTIF'
+            ? 'success'
+            : 'danger'
+
+        let html = `
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+
+                    <h5 class="fw-bold">${p.nama}</h5>
+                    <hr>
+
+                    <div class="row mb-2">
+                        <div class="col-6 text-muted">No Kartu</div>
+                        <div class="col-6 fw-bold">${p.noKartu}</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6 text-muted">NIK</div>
+                        <div class="col-6">${p.nik}</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6 text-muted">Kelas</div>
+                        <div class="col-6">
+                            <span class="badge bg-primary">
+                                ${p.hakKelas.keterangan}
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6 text-muted">Jenis Peserta</div>
+                        <div class="col-6">${p.jenisPeserta.keterangan}</div>
+                    </div>
+
+                    <div class="row mb-2">
+                        <div class="col-6 text-muted">Faskes</div>
+                        <div class="col-6">${p.provUmum.nmProvider}</div>
+                    </div>
+
+                    <div class="mt-3">
+                        <span class="badge bg-${statusColor}">
+                            ${p.statusPeserta.keterangan}
+                        </span>
+                    </div>
+
+                </div>
+            </div>
+        `
+
+        $('#hasilBpjs').html(html)
+
+    }).fail(function () {
+        $('#hasilBpjs').html(`
+            <div class="alert alert-danger">
+                Gagal terhubung ke server.
+            </div>
+        `)
+    })
+})

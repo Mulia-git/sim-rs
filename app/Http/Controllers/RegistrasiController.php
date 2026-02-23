@@ -181,15 +181,15 @@ public function store(Request $request)
 }
 
 public function history($id_pasien)
-{
-    $data = Registrasi::where('id_pasien',$id_pasien)
-        ->orderByDesc('tanggal_registrasi')
-        ->get([
+{    $data = Registrasi::select(
             'tanggal_registrasi',
             'tanggal_pulang',
             'poli',
             'cara_pulang'
-        ]);
+        )
+        ->where('id_pasien', $id_pasien)
+        ->orderBy('tanggal_registrasi', 'DESC')
+        ->get();
 
     return response()->json($data);
 }
@@ -231,6 +231,7 @@ public function cetakEtiket($no_rawat)
 
     return view('registrasi.etiket',compact('registrasi','qr'));
 }
+
 public function cekIhs(Request $request)
 {
     $request->validate([

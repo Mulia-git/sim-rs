@@ -32,8 +32,21 @@
                         {{ $row->no_rm }}
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a class="dropdown-item">[Vclaim] Cek Nomor Kartu</a></li>
-                        <li><a class="dropdown-item">[Vclaim] Cek Nomor KTP</a></li>
+                        <li>
+                            <a href="javascript:void(0)"
+                            class="dropdown-item btn-cek-bpjs"
+                            data-jenis="kartu">
+                                [Vclaim] Cek Nomor Kartu
+                            </a>
+                        </li>
+
+                        <li>
+                            <a href="javascript:void(0)"
+                            class="dropdown-item btn-cek-bpjs"
+                            data-jenis="nik">
+                                [Vclaim] Cek Nomor KTP
+                            </a>
+                        </li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item">Elektronik Rekam Medis</a></li>
                     </ul>
@@ -62,8 +75,13 @@
                         </li>
 
                         <li>
-                             <li><a href="/master-pasien/edit/{{ $row->id }}"
-                               class="dropdown-item">Riwayat Kunjungan</a></li>
+                             <li>
+                                <a href="javascript:void(0)"
+                                class="dropdown-item btn-history"
+                                data-id="{{ $row->id }}">
+                                    Riwayat Kunjungan
+                                </a>
+                            </li>
                         <li>
                         <li><a href="/master-pasien/edit/{{ $row->id }}"
                                class="dropdown-item">Edit</a></li>
@@ -100,3 +118,62 @@
     </div>
 </div>
 
+<div class="modal fade" id="modalRegistrasi" tabindex="-1">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Riwayat Pemeriksaan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body" id="modal-registrasi-body">
+        <p>Loading...</p>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary"
+                data-bs-dismiss="modal">
+          Tutup
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="modalCekBpjs" tabindex="-1">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title">Cek Kepesertaan BPJS</h5>
+        <button type="button" class="btn-close btn-close-white"
+                data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+
+        <input type="hidden" id="jenis_pencarian">
+
+        <div class="mb-3">
+          <label class="form-label">Nomor Kartu / NIK</label>
+          <input type="text" class="form-control" id="no_peserta">
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label">Tanggal Pelayanan</label>
+          <input type="date" class="form-control" id="tgl_sep"
+                 value="{{ date('Y-m-d') }}">
+        </div>
+
+        <button class="btn btn-success w-100" id="btnProsesCek">
+          🔎 Cek Kepesertaan
+        </button>
+
+        <hr>
+
+        <div id="hasilBpjs"></div>
+
+      </div>
+    </div>
+  </div>
+</div>

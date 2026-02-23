@@ -68,8 +68,8 @@ if (!function_exists('vclaim_get')) {
         $h = vclaim_headers();
         if (!$h) return null;
 
-        $url = rtrim($h['base_url'], '/') . '/vclaim-rest/' . ltrim($endpoint, '/');
-
+        $url = rtrim($h['base_url'], '/') .'/'. ltrim($endpoint, '/');
+// echo $url;
         $curl = curl_init();
 
         curl_setopt_array($curl, [
@@ -83,7 +83,13 @@ if (!function_exists('vclaim_get')) {
             ],
         ]);
 
-        $response = curl_exec($curl);
+//        $response = curl_exec($curl);
+// $httpCode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+
+// curl_close($curl);
+
+// dd($httpCode, $response);
+ $response = curl_exec($curl);
         curl_close($curl);
 
         $json = json_decode($response, true);
@@ -112,7 +118,7 @@ if (!function_exists('vclaim_post')) {
         $h = vclaim_headers();
         if (!$h) return null;
 
-        $url = rtrim($h['base_url'], '/') . '/vclaim-rest/' . ltrim($endpoint, '/');
+        $url = rtrim($h['base_url'], '/') .'/'. ltrim($endpoint, '/');
 
         $curl = curl_init();
 
@@ -143,7 +149,7 @@ if (!function_exists('vclaim_put')) {
         $h = vclaim_headers();
         if (!$h) return null;
 
-        $url = rtrim($h['base_url'], '/') . '/vclaim-rest/' . ltrim($endpoint, '/');
+        $url = rtrim($h['base_url'], '/') .'/'. ltrim($endpoint, '/');
 
         $curl = curl_init();
 
@@ -174,7 +180,7 @@ if (!function_exists('vclaim_delete')) {
         $h = vclaim_headers();
         if (!$h) return null;
 
-        $url = rtrim($h['base_url'], '/') . '/vclaim-rest/' . ltrim($endpoint, '/');
+        $url = rtrim($h['base_url'], '/') .'/'. ltrim($endpoint, '/');
 
         $curl = curl_init();
 
