@@ -679,69 +679,33 @@
     </form>
 
 </div>
-<div class="modal fade" id="modalRujukanRS" tabindex="-1">
-    <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content">
+<div class="modal fade" id="modalRujukanRS">
+  <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-content">
 
-            <div class="modal-header">
-                <h5 class="modal-title">
-                    Daftar Rujukan Rumah Sakit
-                </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
-            </div>
+      <div class="modal-header">
+        <h5 class="modal-title">Daftar Rujukan</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
 
-            <div class="modal-body">
-
-                <div class="row">
-
-                    <!-- LEFT TABLE -->
-                    <div class="col-md-7">
-
-                        <input type="text"
-                               id="searchRujukan"
-                               class="form-control mb-3"
-                               placeholder="Cari nama / no kunjungan / diagnosa...">
-
-                        <div class="table-responsive">
-                            <table class="table table-hover table-bordered"
-                                   id="tableRujukanRS">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th>No</th>
-                                        <th>No Kunjungan</th>
-                                        <th>Nama</th>
-                                        <th>Diagnosa</th>
-                                        <th>Tgl</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="rujukan_rs_list"></tbody>
-                            </table>
-                        </div>
-
-                    </div>
-
-                    <!-- RIGHT DETAIL -->
-                    <div class="col-md-5 border-start">
-
-                        <h6 class="fw-bold mb-3">
-                            Detail Rujukan
-                        </h6>
-
-                        <div id="rujukan_detail_preview">
-
-                            <div class="text-muted">
-                                Pilih data rujukan untuk melihat detail
-                            </div>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>No Kunjungan</th>
+                <th>Nama</th>
+                <th>Diagnosa</th>
+                <th>Tgl</th>
+                <th>Aksi</th>
+              </tr>
+            </thead>
+            <tbody id="rujukan_rs_list"></tbody>
+          </table>
         </div>
+      </div>
+
     </div>
+  </div>
 </div>

@@ -62,31 +62,50 @@ function kirim_jawaban(param) {
             "&ppkRujukan=" + ppkRujukan +
             "&jenis_faskes=" + jenis_faskes +
             "&tglLahir=" + tglLahir,
-        success: function(response) {
+      success: function (response) {
 
-            var response = $.parseJSON(response);
+    window.hideLoading();
 
-            if (response.message == 'True') {
+    if (response.metaData.code != 200) {
+        Swal.fire('Gagal', response.metaData.message, 'error');
+        return;
+    }
 
-                swal({
-                    icon: 'success',
-                    title: 'Berhasil',
-                    text: "Jawaban Anda benar silahkan melanjutkan pembuatan sep",
-                });
+    let data = response.response.rujukan;
+    let html = '';
 
-                window.hideLoading();
+    if (!data || data.length === 0) {
+        html = `
+            <tr>
+                <td colspan="6" class="text-center text-muted">
+                    Tidak ada data rujukan
+                </td>
+            </tr>
+        `;
+    } else {
+        data.forEach((item, index) => {
+            html += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${item.noKunjungan}</td>
+                    <td>${item.peserta.nama}</td>
+                    <td>${item.diagnosa?.kode ?? ''}</td>
+                    <td>${item.tglKunjungan}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary pilih_rujukan_rs"
+                            data-nokunjungan="${item.noKunjungan}">
+                            Pilih
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+    }
 
-            } else if (response.message == 'false') {
+    $('#rujukan_rs_list').html(html);
 
-                window.hideLoading();
-
-                swal({
-                    icon: 'error',
-                    title: 'Gagal',
-                    text: "Jawaban Anda Salah",
-                });
-            }
-        }
+    $('#modalRujukanRS').modal('show');
+}
     });
 }
 
