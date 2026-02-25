@@ -9,7 +9,8 @@ import * as bootstrap from 'bootstrap'
 window.bootstrap = bootstrap;
 import Swal from 'sweetalert2';
 window.Swal = Swal;
-
+import moment from 'moment'
+window.moment = moment
 // =============================
 // GLOBAL FUNCTIONS HARUS DIBUAT DULU
 // =============================

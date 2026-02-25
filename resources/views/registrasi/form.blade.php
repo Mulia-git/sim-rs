@@ -325,3 +325,6 @@
     @include('bpjs.form-sep')
 </div>
 @endsection
+@push('scripts')
+@vite(['resources/js/bpjs.js','resources/js/registrasi.js'])
+@endpush

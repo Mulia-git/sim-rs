@@ -17,6 +17,13 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\RegistrasiController;
 use App\Http\Controllers\MasterPasienController;
 use App\Http\Controllers\BpjsController;
+use App\Http\Controllers\EmrController;
+use App\Http\Controllers\RawatJalanController;
+use App\Http\Controllers\AjaxProcedureController;
+use App\Http\Controllers\TindakanController;
+use App\Http\Controllers\DiagnosaController;
+use App\Http\Controllers\SatusehatEncounterController;
+
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.process');
@@ -84,7 +91,46 @@ Route::prefix('bpjs')->group(function () {
     Route::get('/referensi-propinsi', [BpjsController::class, 'referensiPropinsi']);
     Route::get('/rujukan-rs-list', [BpjsController::class, 'rujukanRsList']);
     Route::post('/cek-peserta', [BpjsController::class, 'cekPeserta']);
+    
 });
+Route::prefix('rawat-jalan')->group(function () {
+
+    Route::get('/', [RawatJalanController::class, 'index']);
+    Route::get('/cari-pasien', [RawatJalanController::class, 'cariPasien']);
+
+    Route::get('//by-registrasi/{id}', [RawatJalanController::class, 'ByRegistrasi']);
+    Route::post('//save', [RawatJalanController::class, 'Save']);
+
+    Route::post('/satusehat/encounter/start', [SatusehatEncounterController::class, 'start']);
+});
+
+
+Route::prefix('diagnosa')->group(function () {
+    Route::get('/select2', [DiagnosaController::class, 'select2']);
+    Route::get('/list/{id}', [DiagnosaController::class, 'list']);
+    Route::post('/simpan', [DiagnosaController::class, 'simpan']);
+    Route::post('/hapus/{id}', [DiagnosaController::class, 'hapus']);
+});
+
+
+Route::prefix('procedure')->group(function () {
+    Route::get('/icd9/select2', [AjaxProcedureController::class, 'icd9Select2']);
+    Route::get('/list/{id}', [AjaxProcedureController::class, 'list']);
+    Route::post('/simpan', [AjaxProcedureController::class, 'simpan']);
+    Route::post('/hapus/{id}', [AjaxProcedureController::class, 'hapus']);
+});
+
+
+Route::prefix('tindakan')->group(function () {
+    Route::post('/simpan', [TindakanController::class, 'simpan']);
+    Route::get('/list_/{id}', [TindakanController::class, 'list']);
+});
+
+Route::get('/emr/{id}', [EmrController::class, 'show'])
+    ->name('emr.show');
+
+Route::get('/emr/{id}/pdf', [EmrController::class, 'exportPdf'])
+    ->name('emr.pdf');
 });
 
 

@@ -36,7 +36,7 @@
                 Data Rujukan
             </button>
 
-            <button class="bpjs-btn-outline">
+            <button id="btn_history_sep" class="bpjs-btn-outline">
                 History SEP
             </button>
         </div>
@@ -320,15 +320,17 @@
                             Diagnosa Awal <span class="req">*</span>
                         </label>
 
+                       <input type="hidden" name="diagAwal" id="diagAwal">
+
                         <div class="bpjs-input-group">
                             <input type="text"
-                                name="diagAwal"
-                                id="diagAwal"
+                                id="diagAwal_text"
                                 class="bpjs-control"
-                                placeholder="Masukkan diagnosa awal">
+                                placeholder="Pilih diagnosa"
+                                readonly>
 
                             <button type="button"
-                                    id="diagnosa_awal"
+                                    id="btn_cari_diagnosa"
                                     class="bpjs-btn-outline-sm">
                                 Cari
                             </button>
@@ -341,16 +343,17 @@
                             Poli Tujuan <span class="req">*</span>
                         </label>
 
+                        <input type="hidden" name="tujuan" id="tujuan">
+
                         <div class="bpjs-input-group">
                             <input type="text"
-                                name="tujuan"
-                                id="tujuan"
+                                id="tujuan_text"
                                 class="bpjs-control"
-                                placeholder="Masukkan poli tujuan"
+                                placeholder="Pilih poli"
                                 readonly>
 
                             <button type="button"
-                                    id="poli_tujuan"
+                                    id="btn_cari_poli"
                                     class="bpjs-btn-outline-sm">
                                 Cari
                             </button>
@@ -698,10 +701,44 @@
                 <th>Nama</th>
                 <th>Diagnosa</th>
                 <th>Tgl</th>
+                 <th>Faskes Perujuk</th> 
                 <th>Aksi</th>
               </tr>
             </thead>
             <tbody id="rujukan_rs_list"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="modalHistorySEP">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <h5 class="modal-title">History SEP</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-striped table-bordered">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>No SEP</th>
+                <th>Tgl SEP</th>
+                <th>Tgl Pulang</th>
+                <th>Jenis</th>
+                <th>PPK Pelayanan</th>
+                <th>Diagnosa</th>
+                <th>No Rujukan</th>
+                <th>Kelas</th>
+              </tr>
+            </thead>
+            <tbody id="history_sep_list"></tbody>
           </table>
         </div>
       </div>

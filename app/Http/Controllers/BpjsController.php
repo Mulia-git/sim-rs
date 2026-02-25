@@ -10,16 +10,7 @@ class BpjsController extends Controller
 
 
 
-    // =========================================
-    // HISTORY SEP
-    // =========================================
-    public function history(Request $r)
-    {
-        $endpoint = "SEP/Histori?noKartu={$r->no_kartu_txt}&tglAwal={$r->search_tanggal_awal}&tglAkhir={$r->search_tanggal_akhir}";
-        return response()->json(vclaim_get($endpoint));
-    }
-
-
+ 
     // =========================================
     // LIST RUJUKAN
     // =========================================
@@ -180,5 +171,20 @@ public function cekPeserta(Request $r)
     }
 
     return response()->json(vclaim_get($endpoint));
+}
+// =========================================
+// HISTORY HISTORI PELAYANAN (MONITORING)
+// =========================================
+public function history(Request $r)
+{
+    $noKartu = $r->no_kartu;
+    $tglMulai = $r->tgl_mulai;
+    $tglAkhir = $r->tgl_akhir;
+
+    $endpoint = "monitoring/HistoriPelayanan/NoKartu/{$noKartu}/tglMulai/{$tglMulai}/tglAkhir/{$tglAkhir}";
+
+    return response()->json(
+        vclaim_get($endpoint)
+    );
 }
 }

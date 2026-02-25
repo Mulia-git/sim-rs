@@ -27,10 +27,13 @@
         <tr>
             <td>
                 <div class="dropdown">
-                    <a class="dropdown-toggle fw-bold text-dark"
-                       data-bs-toggle="dropdown">
-                        {{ $row->no_rm }}
-                    </a>
+                    <a href="#"
+   class="dropdown-toggle fw-bold text-dark"
+   role="button"
+   data-bs-toggle="dropdown"
+   aria-expanded="false">
+    {{ $row->no_rm }}
+</a>
                     <ul class="dropdown-menu">
                         <li>
                             <a href="javascript:void(0)"
@@ -48,7 +51,13 @@
                             </a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item">Elektronik Rekam Medis</a></li>
+                       <li>
+                            <a href="{{ route('emr.show', $row->id) }}"
+                            target="_blank"
+                            class="dropdown-item">
+                                Elektronik Rekam Medis
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </td>
@@ -62,10 +71,12 @@
 
             <td>
                 <div class="dropdown">
-                    <button class="btn btn-sm btn-secondary dropdown-toggle"
-                            data-bs-toggle="dropdown">
-                        Aksi
-                    </button>
+                    <button type="button"
+        class="btn btn-sm btn-secondary dropdown-toggle"
+        data-bs-toggle="dropdown"
+        aria-expanded="false">
+    Aksi
+</button>
                     <ul class="dropdown-menu dropdown-menu-end">
                        <li>
                             <a href="{{ route('registrasi.create', $row->id) }}"

@@ -47,7 +47,7 @@
 /* Responsive improvement */
 .table-responsive {
     border-radius: 12px;
-    overflow: hidden;
+  
 }
 
 /* Modal styling */
@@ -69,4 +69,7 @@
 
 .spinner-border {
     margin-top: 8px;
+}
+.table-responsive {
+    overflow: visible !important;
 }

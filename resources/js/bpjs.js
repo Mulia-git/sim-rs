@@ -1,9 +1,64 @@
-import $ from 'jquery';
-window.$ = window.jQuery = $;
 
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+document.addEventListener('DOMContentLoaded', function () {
+    const laka = document.getElementById('lakaLantas')
+    if (!laka) return
 
-import Swal from 'sweetalert2';
+    laka.addEventListener('change', function () {
+        const fields = document.querySelectorAll('.bpjs-kll-field')
+
+        if (this.value === "0" || this.value === "") {
+            fields.forEach(f => f.classList.add('d-none'))
+        } else {
+            fields.forEach(f => f.classList.remove('d-none'))
+        }
+    })
+    const suplesi = document.getElementById('suplesi')
+
+if (suplesi) {
+    suplesi.addEventListener('change', function () {
+
+        const field = document.getElementById('suplesi_field')
+        if (!field) return
+
+        if (this.value === "1") {
+            field.classList.remove('d-none')
+        } else {
+            field.classList.add('d-none')
+        }
+    })
+}
+const isSKDP = document.getElementById('isSKDP')
+
+if (isSKDP) {
+    isSKDP.addEventListener('change', function () {
+
+        const fields = document.querySelectorAll('.bpjs-skdp-field')
+
+        if (this.value === "1") {
+            fields.forEach(f => f.classList.remove('d-none'))
+        } else {
+            fields.forEach(f => f.classList.add('d-none'))
+        }
+    })
+}
+    document.querySelectorAll('.bpjs-tab').forEach(button => {
+        button.addEventListener('click', function () {
+
+            document.querySelectorAll('.bpjs-tab')
+                .forEach(btn => btn.classList.remove('active'));
+
+            document.querySelectorAll('.bpjs-tab-pane')
+                .forEach(pane => pane.classList.remove('active'));
+
+            this.classList.add('active');
+
+            let tabId = this.getAttribute('data-tab');
+            let target = document.getElementById(tabId);
+            if (target) target.classList.add('active');
+
+        });
+    });
+})
 function validate(class_name) {
 
     var fields = document.getElementsByClassName(class_name);
@@ -907,61 +962,9 @@ $(document).ready(function() {
     getPropinsi();
 
 });
-document.querySelectorAll('.bpjs-tab').forEach(button => {
-    button.addEventListener('click', function () {
 
-        // remove active button
-        document.querySelectorAll('.bpjs-tab')
-            .forEach(btn => btn.classList.remove('active'));
 
-        // hide all panes
-        document.querySelectorAll('.bpjs-tab-pane')
-            .forEach(pane => pane.classList.remove('active'));
 
-        // activate clicked tab
-        this.classList.add('active');
-
-        let tabId = this.getAttribute('data-tab');
-        document.getElementById(tabId).classList.add('active');
-
-    });
-});
-document.getElementById('lakaLantas')
-    .addEventListener('change', function () {
-
-    const fields = document.querySelectorAll('.bpjs-kll-field');
-
-    if (this.value === "0" || this.value === "") {
-        fields.forEach(f => f.classList.add('d-none'));
-    } else {
-        fields.forEach(f => f.classList.remove('d-none'));
-    }
-
-});
-document.getElementById('suplesi')
-    .addEventListener('change', function () {
-
-    const field = document.getElementById('suplesi_field');
-
-    if (this.value === "1") {
-        field.classList.remove('d-none');
-    } else {
-        field.classList.add('d-none');
-    }
-
-});
-document.getElementById('isSKDP')
-    .addEventListener('change', function () {
-
-    const fields = document.querySelectorAll('.bpjs-skdp-field');
-
-    if (this.value === "1") {
-        fields.forEach(f => f.classList.remove('d-none'));
-    } else {
-        fields.forEach(f => f.classList.add('d-none'));
-    }
-
-});
 $(document).on('click', '#getQuestion', function() {
     // logic buka pertanyaan
 });
@@ -987,36 +990,72 @@ $(document).on('click', '#btn_data_rujukan', function () {
     window.showLoading();
 
     $.ajax({
-        type: "GET",
-        
-         url: "/bpjs/rujukan-rs-list?no_kartu=" + noKartu+ "&jenis=" + jenisFaskes,
-        success: function (response) {
+    type: "GET",
+    url: "/bpjs/rujukan-rs-list?no_kartu=" + noKartu + "&jenis=" + jenisFaskes,
+    dataType: "json",   
+    success: function (response) {
 
-            window.hideLoading();
+        window.hideLoading();
 
-            if (response.metaData.code != 200) {
-                Swal.fire('Gagal', response.metaData.message, 'error');
-                return;
-            }
+     
 
-            $('#modalRujukanRS').modal('show');
-
+        if (!response.metaData || response.metaData.code != 200) {
+            Swal.fire('Gagal', response.metaData?.message ?? 'Error', 'error');
+            return;
         }
-    });
 
+        let data = response.response.rujukan || [];
+        let html = '';
+
+        if (data.length === 0) {
+            html = `
+                <tr>
+                    <td colspan="6" class="text-center text-muted">
+                        Tidak ada data rujukan
+                    </td>
+                </tr>
+            `;
+        } else {
+            data.forEach((item, index) => {
+                html += `
+                    <tr data-detail='${JSON.stringify(item)}'>
+                        <td>${index + 1}</td>
+                        <td>${item.noKunjungan}</td>
+                        <td>${item.peserta?.nama ?? ''}</td>
+                        <td>${item.diagnosa?.kode ?? ''}</td>
+                        <td>
+                            ${item.provPerujuk?.kode ?? ''} - 
+                            ${item.provPerujuk?.nama ?? ''}
+                        </td>
+                        <td>${item.tglKunjungan}</td>
+                        <td>
+                            <button class="btn btn-sm btn-primary pilih_rujukan_rs">
+                                Pilih
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        $('#rujukan_rs_list').html(html);
+
+        new bootstrap.Modal(
+            document.getElementById('modalRujukanRS')
+        ).show();
+    },
+    error: function(xhr) {
+        console.log(xhr.responseText);
+        window.hideLoading();
+        Swal.fire('Error', 'Server tidak merespon', 'error');
+    }
+});
 });
 // ==========================================
 // PILIH RUJUKAN RS
 // ==========================================
 
-$(document).on('click', '.pilih_rujukan_rs', function () {
 
-    let noKunjungan = $(this).data('nokunjungan');
-
-    $('#noRujukan').val(noKunjungan);
-    $('#modalRujukanRS').modal('hide');
-
-});
 $(document).on('click', '#tableRujukanRS tbody tr', function () {
 
     let detail = $(this).data('detail');
@@ -1063,19 +1102,42 @@ $(document).on('click', '.pilih_rujukan_rs', function (e) {
 
     let row = $(this).closest('tr');
     let detail = row.data('detail');
+
+    if (!detail) return;
+
+    // ===== AUTO FILL FIELD =====
+    $('#nama_peserta').val(detail.peserta.nama);
+    $('#noKartu').val(detail.peserta.noKartu);
+    $('#nik').val(detail.peserta.nik);
+    $('#noMr').val(detail.peserta.mr.noMR);
+    $('#noTelp').val(detail.peserta.mr.noTelepon);
+
     $('#noRujukan').val(detail.noKunjungan);
     $('#ppkRujukan').val(detail.provPerujuk.kode);
     $('#ppkRujukan_txt').val(detail.provPerujuk.nama);
-    $('#diagAwal').val(detail.diagnosa.kode);
-    $('#nama_peserta').val(detail.peserta.nama);
-    $('#nik').val(detail.peserta.nik);
-    $('#noKartu').val(detail.peserta.noKartu);
-    $('#noMr').val(detail.peserta.mr.noMR);
 
-    $('#modalRujukanRS').modal('hide');
+    $('#diagAwal').val(detail.diagnosa.kode);
+    $('#tujuan').val(detail.poliRujukan.kode);
+
+    // Set asal rujukan otomatis
+    $('#asalRujukan').val(
+        detail.response?.asalFaskes ?? '2'
+    );
+    // Lock diagnosa & poli
+$('#diagAwal_text').prop('readonly', true);
+$('#btn_cari_diagnosa').prop('disabled', true);
+
+$('#tujuan_text').prop('readonly', true);
+$('#btn_cari_poli').prop('disabled', true);
+
+    // ===== TUTUP MODAL (Bootstrap 5 way) =====
+    let modal = bootstrap.Modal.getInstance(
+        document.getElementById('modalRujukanRS')
+    );
+
+    if (modal) modal.hide();
 
     Swal.fire('Berhasil', 'Rujukan dipilih', 'success');
-
 });
 
 
@@ -1184,3 +1246,204 @@ $('#btnProsesCek').on('click', function () {
         `)
     })
 })
+$(document).on('click', '#btn_history_sep', function () {
+
+    let noKartu = $('#no_kartu_txt').val()
+
+    if (!noKartu) {
+        Swal.fire('Oops', 'Nomor kartu harus diisi', 'warning')
+        return
+    }
+
+    let tglMulai = moment().subtract(90, 'days').format('YYYY-MM-DD')
+    let tglAkhir = moment().format('YYYY-MM-DD')
+
+    window.showLoading()
+
+    $.ajax({
+        type: "GET",
+        url: "/bpjs/history",
+        data: {
+            no_kartu: noKartu,
+            tgl_mulai: tglMulai,
+            tgl_akhir: tglAkhir
+        },
+        dataType: "json",
+        success: function (res) {
+
+            window.hideLoading()
+
+            if (!res.metaData || res.metaData.code != 200) {
+                Swal.fire('Gagal', res.metaData?.message ?? 'Error', 'error')
+                return
+            }
+
+            let data = res.response.histori || []
+            let html = ''
+
+            if (data.length === 0) {
+                html = `
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            Tidak ada histori pelayanan
+                        </td>
+                    </tr>
+                `
+            } else {
+
+                data.forEach((item, index) => {
+
+                    let jenis = item.jnsPelayanan == "1"
+                        ? "Rawat Inap"
+                        : "Rawat Jalan"
+
+                    html += `
+                        <tr>
+                            <td>${index + 1}</td>
+                            <td>${item.noSep}</td>
+                            <td>${item.tglSep}</td>
+                            <td>${item.tglPlgSep ?? '-'}</td>
+                            <td>${jenis}</td>
+                            <td>${item.ppkPelayanan}</td>
+                            <td>${item.diagnosa}</td>
+                            <td>${item.noRujukan ?? '-'}</td>
+                            <td>${item.kelasRawat ?? '-'}</td>
+                        </tr>
+                    `
+                })
+            }
+
+            $('#history_sep_list').html(html)
+            new bootstrap.Modal(document.getElementById('modalHistorySEP')).show()
+        },
+        error: function () {
+            window.hideLoading()
+            Swal.fire('Error', 'Server tidak merespon', 'error')
+        }
+    })
+})
+$(document).on('click', '#btn_cari_diagnosa', function () {
+
+    let keyword = prompt('Masukkan kode / nama diagnosa');
+
+    if (!keyword) return;
+
+    $.get('/bpjs/referensi-diagnosa/' + keyword, function (res) {
+
+        if (res.metaData.code != 200) {
+            Swal.fire('Error', res.metaData.message, 'error');
+            return;
+        }
+
+        let data = res.response.diagnosa;
+        let html = '';
+
+        data.forEach((item, i) => {
+            html += `
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${item.kode}</td>
+                    <td>${item.nama}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary pilih_diagnosa"
+                                data-kode="${item.kode}"
+                                data-nama="${item.nama}">
+                            Pilih
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        $('#diagnosa_list').html(html);
+        new bootstrap.Modal(document.getElementById('modalDiagnosa')).show();
+    });
+});
+$(document).on('click', '.pilih_diagnosa', function () {
+
+    $('#diagAwal').val($(this).data('kode'));
+    $('#diagAwal_text').val(
+        $(this).data('kode') + ' - ' + $(this).data('nama')
+    );
+
+    bootstrap.Modal.getInstance(
+        document.getElementById('modalDiagnosa')
+    ).hide();
+});
+$(document).on('click', '#btn_cari_poli', function () {
+
+    let keyword = prompt('Masukkan kode / nama poli');
+
+    if (!keyword) return;
+
+    $.get('/bpjs/referensi-poli/' + keyword, function (res) {
+
+        if (res.metaData.code != 200) {
+            Swal.fire('Error', res.metaData.message, 'error');
+            return;
+        }
+
+        let data = res.response.poli;
+        let html = '';
+
+        data.forEach((item, i) => {
+            html += `
+                <tr>
+                    <td>${i+1}</td>
+                    <td>${item.kode}</td>
+                    <td>${item.nama}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary pilih_poli"
+                                data-kode="${item.kode}"
+                                data-nama="${item.nama}">
+                            Pilih
+                        </button>
+                    </td>
+                </tr>
+            `;
+        });
+
+        $('#poli_list').html(html);
+        new bootstrap.Modal(document.getElementById('modalPoli')).show();
+    });
+});
+$(document).on('click', '.pilih_poli', function () {
+
+    let kodePoli = $(this).data('kode');
+    let namaPoli = $(this).data('nama');
+
+    $('#tujuan').val(kodePoli);
+    $('#tujuan_text').val(kodePoli + ' - ' + namaPoli);
+
+    bootstrap.Modal.getInstance(
+        document.getElementById('modalPoli')
+    ).hide();
+
+    loadDpjp(kodePoli);
+});
+function loadDpjp(kodePoli) {
+
+    let today = new Date().toISOString().split('T')[0];
+
+    $.get(`/bpjs/getDpjp?jenisPelayanan=2&tglPelayanan=${today}&kodeSpesialis=${kodePoli}`, function (res) {
+
+        if (res.metaData.code != 200) {
+            Swal.fire('Error', res.metaData.message, 'error');
+            return;
+        }
+
+        let data = res.response.list;
+        let dropdown = $('#dpjpLayan');
+
+        dropdown.empty();
+        dropdown.append('<option value="">Pilih Dokter</option>');
+
+        data.forEach(item => {
+            dropdown.append(
+                `<option value="${item.kode}">
+                    ${item.kode} - ${item.nama}
+                 </option>`
+            );
+        });
+    });
+}
