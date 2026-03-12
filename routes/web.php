@@ -23,7 +23,7 @@ use App\Http\Controllers\AjaxProcedureController;
 use App\Http\Controllers\TindakanController;
 use App\Http\Controllers\DiagnosaController;
 use App\Http\Controllers\SatusehatEncounterController;
-
+use App\Http\Controllers\Keuangan\AkunRekeningController;
 
 Route::get('/login', [LoginController::class, 'showLogin'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.process');
@@ -33,7 +33,7 @@ Route::middleware('auth')->group(function () {
         ->name('dashboard');
     Route::prefix('registrasi')->group(function () {
 
-<<<<<<< Updated upstream
+
         Route::get('/', [RegistrasiController::class, 'index'])->name('registrasi.index');
         Route::get('/history/{id}', [RegistrasiController::class, 'history'])
             ->name('registrasi.history');
@@ -42,18 +42,18 @@ Route::middleware('auth')->group(function () {
         Route::get('/data', [RegistrasiController::class, 'data'])->name('registrasi.data');
 
         Route::get('/summary', [RegistrasiController::class, 'summary']);
-=======
+
         Route::get('/', [RegistrasiController::class, 'index']);
         Route::get('/history/{id}', [RegistrasiController::class, 'history'])
             ->name('registrasi.history');
 
->>>>>>> Stashed changes
+
         Route::get('/history/{id}', [RegistrasiController::class, 'history']);
         Route::get('/datatable-rajal', [RegistrasiController::class, 'datatableRajal']);
         Route::get('/cetak/{no_rawat}', [RegistrasiController::class, 'cetakEtiket']);
         Route::get('/create/{id}', [RegistrasiController::class, 'create'])->name('registrasi.create');
         Route::post('/store', [RegistrasiController::class, 'store'])->name('registrasi.store');
-<<<<<<< Updated upstream
+
         Route::post('/batal', [RegistrasiController::class, 'batal']);
 
 
@@ -64,13 +64,12 @@ Route::middleware('auth')->group(function () {
 
         Route::post('/simpan', [RegistrasiController::class, 'store'])
             ->name('registrasi.simpan');
-=======
+
 
 
 
         Route::get('/api/dokter-igd', [RegistrasiController::class, 'dokterIgd']);
         Route::post('/api/jadwal-dokter', [RegistrasiController::class, 'jadwalDokter']);
->>>>>>> Stashed changes
     });
 
     Route::prefix('master-pasien')->group(function () {
@@ -93,19 +92,19 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/cek-peserta', [BpjsController::class, 'cekPeserta']);
         Route::get('/history', [BpjsController::class, 'history']);
-<<<<<<< Updated upstream
+
         Route::get('/dpjp', [BpjsController::class, 'getDpjp']);
-=======
->>>>>>> Stashed changes
+
+
 
         Route::get('/rujukan-list', [BpjsController::class, 'rujukanList']);
         Route::get('/rujukan-detail', [BpjsController::class, 'rujukanDetail']);
 
         Route::get('/referensi-diagnosa/{kode}', [BpjsController::class, 'referensiDiagnosa']);
-<<<<<<< Updated upstream
-         Route::get('/referensi-procedure/{kode}', [BpjsController::class, 'referensiProcedure']);
-=======
->>>>>>> Stashed changes
+
+        Route::get('/referensi-procedure/{kode}', [BpjsController::class, 'referensiProcedure']);
+
+
         Route::get('/referensi-poli/{kode}', [BpjsController::class, 'referensiPoli']);
 
         Route::get('/dpjp', [BpjsController::class, 'getDpjp']);
@@ -129,7 +128,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/', [RawatJalanController::class, 'index']);
         Route::get('/cari-pasien', [RawatJalanController::class, 'cariPasien']);
 
-<<<<<<< Updated upstream
+
         Route::get('/by-registrasi/{id}', [RawatJalanController::class, 'ByRegistrasi']);
         Route::post('/save', [RawatJalanController::class, 'Save']);
         Route::get('/poli', [RawatJalanController::class, 'getPoliRJ']);
@@ -147,11 +146,11 @@ Route::middleware('auth')->group(function () {
         Route::get('/procedure/{id}', [RawatJalanController::class, 'getProcedure']);
         Route::post('/procedure/simpan', [RawatJalanController::class, 'simpanProcedure']);
         Route::post('/procedure/delete', [RawatJalanController::class, 'hapusProcedure']);
-=======
+
         Route::get('//by-registrasi/{id}', [RawatJalanController::class, 'ByRegistrasi']);
         Route::post('//save', [RawatJalanController::class, 'Save']);
 
->>>>>>> Stashed changes
+
         Route::post('/satusehat/encounter/start', [SatusehatEncounterController::class, 'start']);
     });
 
@@ -182,17 +181,21 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/emr/{id}/pdf', [EmrController::class, 'exportPdf'])
         ->name('emr.pdf');
-<<<<<<< Updated upstream
-=======
+
+
     Route::prefix('keuangan')->group(function () {
 
-        Route::get('/akun-rekening', 'Keuangan\AkunRekeningController@index');
 
-        Route::get('/akun-rekening/data', 'Keuangan\AkunRekeningController@data');
 
-        Route::post('/akun-rekening/store', 'Keuangan\AkunRekeningController@store');
+        Route::get('/akun-rekening', [AkunRekeningController::class, 'index'])
+            ->name('keuangan./akun-rekening');
+
+        Route::get('/akun-rekening/data', [AkunRekeningController::class, 'data'])
+            ->name('keuangan./akun-rekening-data');
+
+        Route::get('/akun-rekening/store', [AkunRekeningController::class, 'store'])
+            ->name('keuangan./akun-rekening-store');
     });
->>>>>>> Stashed changes
 });
 
 

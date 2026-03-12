@@ -1,3 +1,6 @@
+@extends('layouts.app')
+
+@section('content')
 <div class="card">
 
     <div class="card-body">
@@ -80,3 +83,55 @@
 
     </div>
 </div>
+<div class="modal fade" id="modalRekening">
+
+    <div class="modal-dialog">
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5>Tambah Rekening</h5>
+            </div>
+
+            <div class="modal-body">
+
+                <form id="formRekening">
+
+                    <div class="mb-2">
+                        <label>Kode</label>
+                        <input type="text" name="kode" class="form-control">
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Nama Rekening</label>
+                        <input type="text" name="nama_rekening" class="form-control">
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Tipe</label>
+                        <select name="tipe" class="form-control">
+                            <option value="A1">A1</option>
+                            <option value="A2">A2</option>
+                            <option value="B1">B1</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-2">
+                        <label>Saldo Awal</label>
+                        <input type="number" name="saldo_awal" class="form-control">
+                    </div>
+
+                </form>
+
+            </div>
+
+            <div class="modal-footer">
+
+                <button class="btn btn-success" id="btnSimpan">Simpan</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+@endsection
